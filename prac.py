@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import pandas as pd
 import numpy as np
 import seaborn as sns
@@ -36,18 +35,5 @@ cats = df2.Category.unique()
 print("num categories: ", len(cats))
 print(cats)
 '''
-'''
-districts = df2.PdDistrict.unique()
-print("len: " + str(len(districts)))
-colors = ["red", "blue", "brown", "teal", "orange",
-          "silver", "burlywood", "coral", "beige",
-          "olive"]
-dist_colors = {}
-for i in range(0, len(districts)):
-    dist_colors[districts[i]] = colors[i]
-for dist in districts:
-    temp_df = df2[df2["PdDistrict"] == dist]
-    plt.scatter(x=temp_df['X'], y=temp_df['Y'], c=dist_colors[dist])
-plt.show()
-'''
+
 
