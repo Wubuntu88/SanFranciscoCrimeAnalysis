@@ -2,9 +2,12 @@
 import pandas as pd
 import numpy as np
 from sklearn import preprocessing, linear_model
+from sklearn.cross_validation import train_test_split
+import matplotlib.pyplot as plt
+import time
 
 
-def create_feature_matrix_and_label_vector(dataframe):
+def create_feature_matrix(dataframe):
     """
     Takes the dataframe that has categorical variables as strings
     and turns that into a purely numerical feature matrix
@@ -24,28 +27,57 @@ def create_feature_matrix_and_label_vector(dataframe):
 ''' ********** START OF SCRIPT ********** '''
 
 df = pd.read_csv("train.csv", header=0)
-feature_matrix = create_feature_matrix_and_label_vector(dataframe=df)
-#print(feature_matrix)
+feature_matrix = create_feature_matrix(dataframe=df)
 
 label_encoder = preprocessing.LabelEncoder()
 label_encoder.fit(df["Category"])
 label_vector = label_encoder.transform(df["Category"])
 label_vector = label_vector.reshape((len(label_vector), 1))
-#print(label_vector[:20])
 
-#print(feature_matrix.shape)
-#print(label_vector.shape)
+TEST_PERCENT = 0.9
 
-
+x_train, x_test, y_train, y_test = \
+    train_test_split(feature_matrix, label_vector,
+                     test_size=TEST_PERCENT)
 ''' ********** CLASSIFICATION ********** '''
-#'''
+time1 = time.time()
 logistic_classifier = linear_model.LogisticRegression()
-logistic_classifier.fit(feature_matrix, label_vector)
-score = logistic_classifier.score(feature_matrix, label_vector)
+logistic_classifier.fit(x_train, y_train)
+time2 = time.time()
+print('took %0.2f s' % ((time2 - time1)))
+model_score = logistic_classifier.score(x_train, y_train)
+print("Logistic regression model prediction success: ", model_score)
 
-print("Logistic regression model prediction success: ", score)
-#'''
-#leave addresses out for now
-# print(df.Address.unique()[:20])
-#addresses = pd.get_dummies(data=df["Address"])
-#print(addresses[:20])
+'''*** test data classification***'''
+
+#df_test_data = pd.read_csv("test.csv", header=0)
+#feature_matrix_test = create_feature_matrix(df_test_data)
+#label_vector_test = label_encoder.transform(df_test_data["Category"])
+#label_vector_test = label_vector_test.reshape((len(label_vector_test), 1))
+
+test_score = logistic_classifier.score(x_test, y_test)
+print("Logistic regression test prediction success: ", test_score)
+
+'''#shows a histogram of the prediction counts of the categorical result variable
+predictions = logistic_classifier.predict(x_test)
+labels = label_encoder.inverse_transform(predictions)
+pd.Series(labels).value_counts().plot(kind='bar')
+plt.show()
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
