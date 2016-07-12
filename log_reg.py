@@ -48,22 +48,6 @@ print('took %0.2f s' % ((time2 - time1)))
 model_score = logistic_classifier.score(x_train, y_train)
 print("Logistic regression model prediction success: ", model_score)
 
-'''*** test data classification***'''
-
-#df_test_data = pd.read_csv("test.csv", header=0)
-#feature_matrix_test = create_feature_matrix(df_test_data)
-#label_vector_test = label_encoder.transform(df_test_data["Category"])
-#label_vector_test = label_vector_test.reshape((len(label_vector_test), 1))
-
-test_score = logistic_classifier.score(x_test, y_test)
-print("Logistic regression test prediction success: ", test_score)
-
-'''#shows a histogram of the prediction counts of the categorical result variable
-predictions = logistic_classifier.predict(x_test)
-labels = label_encoder.inverse_transform(predictions)
-pd.Series(labels).value_counts().plot(kind='bar')
-plt.show()
-'''
 
 
 
