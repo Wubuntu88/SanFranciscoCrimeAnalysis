@@ -45,7 +45,7 @@ logistic_classifier = linear_model.LogisticRegression()
 logistic_classifier.fit(x_train, y_train)
 time2 = time.time()
 print('took %0.2f s' % ((time2 - time1)))
-model_score = logistic_classifier.score(x_train, y_train)
+model_score = logistic_classifier.score(x_test, y_test)
 print("Logistic regression model prediction success: ", model_score)
 
 
