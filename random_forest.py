@@ -3,8 +3,7 @@ import pandas as pd
 import numpy as np
 from sklearn import preprocessing, linear_model
 from sklearn.cross_validation import train_test_split
-import matplotlib.pyplot as plt
-import time
+from sklearn.ensemble import RandomForestClassifier
 
 
 def create_feature_matrix(dataframe):
@@ -39,41 +38,13 @@ TEST_PERCENT = 0.9
 x_train, x_test, y_train, y_test = \
     train_test_split(feature_matrix, label_vector,
                      test_size=TEST_PERCENT)
+
 ''' ********** CLASSIFICATION ********** '''
-time1 = time.time()
-logistic_classifier = linear_model.LogisticRegression()
-logistic_classifier.fit(x_train, y_train)
-time2 = time.time()
-print('took %0.2f s' % ((time2 - time1)))
-model_score = logistic_classifier.score(x_train, y_train)
-print("Logistic regression model prediction success: ", model_score)
-
-'''*** test data classification***'''
-
-#df_test_data = pd.read_csv("test.csv", header=0)
-#feature_matrix_test = create_feature_matrix(df_test_data)
-#label_vector_test = label_encoder.transform(df_test_data["Category"])
-#label_vector_test = label_vector_test.reshape((len(label_vector_test), 1))
-
-test_score = logistic_classifier.score(x_test, y_test)
-print("Logistic regression test prediction success: ", test_score)
-
-'''#shows a histogram of the prediction counts of the categorical result variable
-predictions = logistic_classifier.predict(x_test)
-labels = label_encoder.inverse_transform(predictions)
-pd.Series(labels).value_counts().plot(kind='bar')
-plt.show()
-'''
-
-
-
-
-
-
-
-
-
-
+random_forest_classifier = RandomForestClassifier(n_estimators=10, criterion="gini",
+                                                  max_depth=None,n_jobs=2)
+random_forest_classifier.fit(x_train, y_train)
+model_score = random_forest_classifier.score(x_test, y_test)
+print("Random Forest model prediction success: ", model_score)
 
 
 
